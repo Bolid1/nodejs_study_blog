@@ -30,6 +30,23 @@ router.get('/add', function (req, res) {
   res.render('articles/add', {title: 'Express'});
 });
 
+router.post('/create', function (req, res) {
+  /** @var {Collection} collection */
+  var collection = req.db.get('articles');
+
+  collection.insert({
+    head: req.body.head,
+    body: req.body.body
+  }, {}, function (err) {
+    if (err) {
+      console.log(err);
+      res.send('Error in adding info to database');
+    } else {
+      res.redirect('/articles/');
+    }
+  });
+});
+
 router.get('/edit/:id', function (req, res) {
   /** @var {Collection} collection */
   var collection = req.db.get('articles');
@@ -61,24 +78,21 @@ router.post('/update/', function (req, res) {
   }, function (err) {
     if (err) {
       console.log(err);
-      res.send('Error in updating info to database');
+      res.send('Error in updating info in database');
     } else {
       res.redirect('/articles/');
     }
   });
 });
 
-router.post('/create', function (req, res) {
+router.post('/delete/', function (req, res) {
   /** @var {Collection} collection */
   var collection = req.db.get('articles');
 
-  collection.insert({
-    head: req.body.head,
-    body: req.body.body
-  }, {}, function (err) {
+  collection.removeById(req.body.id, function (err) {
     if (err) {
       console.log(err);
-      res.send('Error in adding info to database');
+      res.send('Error in deleting info from database');
     } else {
       res.redirect('/articles/');
     }
