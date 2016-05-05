@@ -30,6 +30,27 @@ router.get('/add', function (req, res, next) {
   res.render('articles/add', {title: 'Express'});
 });
 
+router.get('/edit/:id', function (req, res, next) {
+  /** @var {Collection} collection */
+  var collection = req.db.get('articles');
+
+  collection.findById(req.params.id, {}, function (err, article) {
+    if (err) {
+      console.log(err);
+      res.send('Error in get info from database');
+    } else {
+      res.render('articles/edit', {
+        title: 'Express',
+        article: {
+          id: article._id,
+          head: article.head,
+          body: article.body
+        }
+      });
+    }
+  });
+});
+
 router.post('/create', function (req, res, next) {
   /** @var {Collection} collection */
   var collection = req.db.get('articles');

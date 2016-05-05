@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  form(method='POST', action='/articles/update')
+    input#article_id(type='hidden', name='id', value=article.id)
+    div.form-group
+      label(for='article_head') Article head
+      input#article_head.form-control(type='text', placeholder='Article head', name='head', value=article.head)
+    div.form-group
+      label(for='article_body') Article body
+      textarea#article_body.form-control(rows=3, name='body')=article.body
+
+    button.btn.btn-primary(type='submit') Update article
