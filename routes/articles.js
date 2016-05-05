@@ -51,6 +51,23 @@ router.get('/edit/:id', function (req, res, next) {
   });
 });
 
+router.post('/update/', function (req, res, next) {
+  /** @var {Collection} collection */
+  var collection = req.db.get('articles');
+
+  collection.updateById(req.body.id, {
+    head: req.body.head,
+    body: req.body.body
+  }, function (err, article) {
+    if (err) {
+      console.log(err);
+      res.send('Error in updating info to database');
+    } else {
+      res.redirect('/articles/');
+    }
+  });
+});
+
 router.post('/create', function (req, res, next) {
   /** @var {Collection} collection */
   var collection = req.db.get('articles');
@@ -63,7 +80,7 @@ router.post('/create', function (req, res, next) {
       console.log(err);
       res.send('Error in adding info to database');
     } else {
-      res.redirect('/articles/add');
+      res.redirect('/articles/');
     }
   });
 });
