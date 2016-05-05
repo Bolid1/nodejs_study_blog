@@ -12,7 +12,20 @@ router.get('/add', function (req, res, next) {
 });
 
 router.post('/create', function (req, res, next) {
-  res.redirect('/articles/add');
+  /** @var {Collection} collection */
+  var collection = req.db.get('articles');
+
+  collection.insert({
+    head: req.body.head,
+    body: req.body.body
+  }, {}, function (err, doc) {
+    if (err) {
+      console.log(err);
+      res.send('Error in adding info to database');
+    } else {
+      res.redirect('/articles/add');
+    }
+  });
 });
 
 module.exports = router;
