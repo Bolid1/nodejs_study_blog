@@ -3,7 +3,7 @@ var
   router = express.Router();
 
 /* GET articles listing. */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
   /** @var {Collection} collection */
   var collection = req.db.get('articles');
 
@@ -26,11 +26,11 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/add', function (req, res, next) {
+router.get('/add', function (req, res) {
   res.render('articles/add', {title: 'Express'});
 });
 
-router.get('/edit/:id', function (req, res, next) {
+router.get('/edit/:id', function (req, res) {
   /** @var {Collection} collection */
   var collection = req.db.get('articles');
 
@@ -51,14 +51,14 @@ router.get('/edit/:id', function (req, res, next) {
   });
 });
 
-router.post('/update/', function (req, res, next) {
+router.post('/update/', function (req, res) {
   /** @var {Collection} collection */
   var collection = req.db.get('articles');
 
   collection.updateById(req.body.id, {
     head: req.body.head,
     body: req.body.body
-  }, function (err, article) {
+  }, function (err) {
     if (err) {
       console.log(err);
       res.send('Error in updating info to database');
@@ -68,14 +68,14 @@ router.post('/update/', function (req, res, next) {
   });
 });
 
-router.post('/create', function (req, res, next) {
+router.post('/create', function (req, res) {
   /** @var {Collection} collection */
   var collection = req.db.get('articles');
 
   collection.insert({
     head: req.body.head,
     body: req.body.body
-  }, {}, function (err, doc) {
+  }, {}, function (err) {
     if (err) {
       console.log(err);
       res.send('Error in adding info to database');
