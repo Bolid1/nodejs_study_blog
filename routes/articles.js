@@ -10,11 +10,17 @@ router.get('/', function (req, res, next) {
   collection.find({}, {}, function (err, doc) {
     if (err) {
       console.log(err);
-      res.send('Error in adding info to database');
+      res.send('Error in get info from database');
     } else {
       res.render('articles/list', {
         title: 'Express',
-        articles: doc
+        articles: doc.map(function (article) {
+          return {
+            id: article._id,
+            head: article.head,
+            body: article.body
+          };
+        })
       });
     }
   });

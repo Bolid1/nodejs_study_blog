@@ -5,11 +5,11 @@ block content
     div.panel.panel-default
       div.panel-heading.clearfix
         div.btn-group.pull-right.clearfix(role='group', aria-label='actions')
-          a(href='/articles/edit/' + article._id)
+          a(href='/articles/edit/' + article.id)
             button.btn.btn-default(type='submit', aria-label='Edit')
               span.glyphicon.glyphicon-pencil(aria-hidden='true') Edit
           form(method='POST', action='/articles/delete').pull-right
-            input(type='hidden', name='id', value=article._id)
+            input(type='hidden', name='id', value=article.id)
             button.btn.btn-default(type='submit', aria-label='Delete')
               span.glyphicon.glyphicon-trash(aria-hidden='true') Delete
         h3.panel-title=article.head
