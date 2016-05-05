@@ -1,8 +1,8 @@
 extends ../layout
 
 block content
-  ul
-    each article, i in articles
-      li
-        h5=article.head
-        p=article.body
+  each article, i in articles
+    div.panel.panel-default
+      div.panel-heading
+        h3.panel-title=article.head
+      div.panel-body=article.body
