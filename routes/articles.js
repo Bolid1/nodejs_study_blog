@@ -4,7 +4,20 @@ var
 
 /* GET articles listing. */
 router.get('/', function (req, res, next) {
-  res.render('articles/list', {title: 'Express'});
+  /** @var {Collection} collection */
+  var collection = req.db.get('articles');
+
+  collection.find({}, {}, function (err, doc) {
+    if (err) {
+      console.log(err);
+      res.send('Error in adding info to database');
+    } else {
+      res.render('articles/list', {
+        title: 'Express',
+        articles: doc
+      });
+    }
+  });
 });
 
 router.get('/add', function (req, res, next) {

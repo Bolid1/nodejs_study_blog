@@ -1,5 +1,8 @@
 extends ../layout
 
 block content
-  h3 Article header
-  p Article content
+  ul
+    each article, i in articles
+      li
+        h5=article.head
+        p=article.body
