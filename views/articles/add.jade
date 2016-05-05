@@ -4,9 +4,9 @@ block content
   form(method='POST', action='/articles/create')
     div.form-group
       label(for='article_head') Article head
-      input#article_head.form-control(type='text', placeholder='Article head')
+      input#article_head.form-control(type='text', placeholder='Article head', name='head')
     div.form-group
       label(for='article_body') Article body
-      textarea#article_body.form-control(rows=3)
+      textarea#article_body.form-control(rows=3, name='body')
 
     button.btn.btn-success(type='submit') Create article
