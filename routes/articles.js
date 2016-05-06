@@ -1,5 +1,6 @@
 var
   express = require('express'),
+  Articles = require('../libs/articles');
   router = express.Router();
 
 /* GET articles listing. */
@@ -9,7 +10,6 @@ router.get('/', function (req, res) {
 
   collection.find({}, {}, function (err, doc) {
     if (err) {
-      console.log(err);
       res.send('Error in get info from database');
     } else {
       res.render('articles/list', {
@@ -39,7 +39,6 @@ router.post('/create', function (req, res) {
     body: req.body.body
   }, {}, function (err) {
     if (err) {
-      console.log(err);
       res.send('Error in adding info to database');
     } else {
       res.redirect('/articles/');
@@ -53,7 +52,6 @@ router.get('/edit/:id', function (req, res) {
 
   collection.findById(req.params.id, {}, function (err, article) {
     if (err) {
-      console.log(err);
       res.send('Error in get info from database');
     } else {
       res.render('articles/edit', {
@@ -86,15 +84,16 @@ router.post('/update/', function (req, res) {
 });
 
 router.post('/delete/', function (req, res) {
-  /** @var {Collection} collection */
-  var collection = req.db.get('articles');
+  var article = new Articles.Model({
+    _id: req.body.id
+  });
 
-  collection.removeById(req.body.id, function (err) {
-    if (err) {
-      console.log(err);
-      res.send('Error in deleting info from database');
-    } else {
+  article.destroy({
+    success: function () {
       res.redirect('/articles/');
+    },
+    error: function () {
+      res.send('Error in deleting info from database');
     }
   });
 });
