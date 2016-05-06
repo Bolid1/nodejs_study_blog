@@ -30,7 +30,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // setup dependencies
 var
-  mongo = require('mongodb'),
   monk = require('monk'),
   db = monk('localhost:27017/node_blog');
 
