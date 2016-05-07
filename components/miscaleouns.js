@@ -10,7 +10,7 @@ var
 Component = function () {};
 
 Component.fillApp = function (app) {
-  var public_dir = path.join(__dirname, 'public');
+  var public_dir = path.join(__dirname, '..', 'public');
 
   app.use(logger('dev'));
   app.use(bodyParser.json());
