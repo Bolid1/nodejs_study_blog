@@ -1,8 +1,6 @@
 var
   _ = require('underscore'),
-  Backbone = require('backbone'),
-  db = require('monk')('localhost:27017/node_blog');
-// @TODO: db.close()
+  Backbone = require('backbone');
 
 Backbone.sync = function (method, model, options) {
   // Default options, unless specified.
@@ -26,6 +24,10 @@ Backbone.sync = function (method, model, options) {
     params.query = options.query || _.result(model, 'query') || throwError('A "query" property or function must be specified');
   }
 
+  if (!Backbone.db) {
+    throwError('Set database first');
+  }
+
   var error = options.error;
   options.error = function (err) {
     /** @var {Error} err */
@@ -46,7 +48,7 @@ Backbone.sync = function (method, model, options) {
   /**
    * @var Collection collection
    */
-  var collection = db.get(params.databaseCollection);
+  var collection = Backbone.db.get(params.databaseCollection);
   // Make the request, allowing the user to override any request options.
   var action, promise;
   switch (method) {

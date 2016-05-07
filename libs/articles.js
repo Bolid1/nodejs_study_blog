@@ -1,6 +1,5 @@
 var
   Backbone = require('./backbone'),
-  monk = require('monk'),
   Articles = {};
 
 var Article = Articles.Model = Backbone.Model.extend({
