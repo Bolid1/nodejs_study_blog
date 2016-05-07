@@ -28,16 +28,6 @@ app.use(require('node-sass-middleware')({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// setup dependencies
-var
-  monk = require('monk'),
-  db = monk('localhost:27017/node_blog');
-
-app.use(function (req, res, next) {
-  req.db = db;
-  next();
-});
-
 // setting routes
 app.use('/', routes);
 app.use('/users', users);

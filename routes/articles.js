@@ -5,23 +5,17 @@ var
 
 /* GET articles listing. */
 router.get('/', function (req, res) {
-  /** @var {Collection} collection */
-  var collection = req.db.get('articles');
-
-  collection.find({}, {}, function (err, doc) {
-    if (err) {
-      res.send('Error in get info from database');
-    } else {
+  /** @var {Collection} articles */
+  var articles = new Articles.Collection();
+  articles.fetch({
+    success: function () {
       res.render('articles/list', {
         title: 'Express',
-        articles: doc.map(function (article) {
-          return {
-            id: article._id,
-            head: article.head,
-            body: article.body
-          };
-        })
+        articles: articles.toJSON()
       });
+    },
+    error: function () {
+      res.send('Error in get info from database');
     }
   });
 });
@@ -31,61 +25,62 @@ router.get('/add', function (req, res) {
 });
 
 router.post('/create', function (req, res) {
-  /** @var {Collection} collection */
-  var collection = req.db.get('articles');
-
-  collection.insert({
+  /** @var Model article */
+  var article = new Articles.Model({
     head: req.body.head,
     body: req.body.body
-  }, {}, function (err) {
-    if (err) {
-      res.send('Error in adding info to database');
-    } else {
+  });
+
+  article.save(null, {
+    success: function () {
       res.redirect('/articles/');
+    },
+    error: function () {
+      res.send('Error in adding info to database');
     }
   });
 });
 
-router.get('/edit/:id', function (req, res) {
-  /** @var {Collection} collection */
-  var collection = req.db.get('articles');
-
-  collection.findById(req.params.id, {}, function (err, article) {
-    if (err) {
-      res.send('Error in get info from database');
-    } else {
+router.get('/edit/:_id', function (req, res) {
+  /** @var Model article */
+  var article = new Articles.Model({
+    _id: req.params._id
+  });
+  article.fetch({
+    success: function () {
       res.render('articles/edit', {
         title: 'Express',
-        article: {
-          id: article._id,
-          head: article.head,
-          body: article.body
-        }
+        article: article.toJSON()
       });
+    },
+    error: function () {
+      res.send('Error in get info from database');
     }
   });
 });
 
 router.post('/update/', function (req, res) {
-  /** @var {Collection} collection */
-  var collection = req.db.get('articles');
-
-  collection.updateById(req.body.id, {
+  /** @var Model article */
+  var article = new Articles.Model({
+    _id: req.body._id,
     head: req.body.head,
     body: req.body.body
-  }, function (err) {
-    if (err) {
-      console.log(err);
-      res.send('Error in updating info in database');
-    } else {
+  });
+
+  article.save(null, {
+    success: function () {
       res.redirect('/articles/');
+    },
+    error: function () {
+      res.send('Error in updating info in database');
     }
   });
 });
 
 router.post('/delete/', function (req, res) {
+  /** @var Model article */
   var article = new Articles.Model({
-    _id: req.body.id
+    _id: req.body._id
   });
 
   article.destroy({

@@ -22,7 +22,7 @@ Backbone.sync = function (method, model, options) {
   }
 
   // Ensure that we have the appropriate request data.
-  if (options.query == null && model && (method === 'read' || method === 'delete')) {
+  if (options.query == null && model && (method === 'read' || method === 'delete' || method === 'update')) {
     params.query = options.query || _.result(model, 'query') || throwError('A "query" property or function must be specified');
   }
 
@@ -48,16 +48,17 @@ Backbone.sync = function (method, model, options) {
    */
   var collection = db.get(params.databaseCollection);
   // Make the request, allowing the user to override any request options.
-  var promise;
+  var action, promise;
   switch (method) {
     case 'read':
-      promise = collection.find(params.query, options, onResult);
+      action = (model instanceof Backbone.Model) ? 'findOne' : 'find';
+      promise = collection[action](params.query, options, onResult);
       break;
     case 'create':
       promise = collection.insert(params.data, options, onResult);
       break;
     case 'update':
-      promise = collection.update(params.data, options, onResult);
+      promise = collection.update(params.query, params.data, options, onResult);
       break;
     case 'delete':
       promise = collection.remove(params.query, options, onResult);

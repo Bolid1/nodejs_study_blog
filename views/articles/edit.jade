@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   form(method='POST', action='/articles/update')
-    input#article_id(type='hidden', name='id', value=article.id)
+    input#article_id(type='hidden', name='_id', value=article._id)
     div.form-group
       label(for='article_head') Article head
       input#article_head.form-control(type='text', placeholder='Article head', name='head', value=article.head)
