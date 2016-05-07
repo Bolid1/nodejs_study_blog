@@ -1,6 +1,6 @@
 var
   express = require('express'),
-  Articles = require('../libs/articles');
+  Articles = require('../libs/articles'),
   router = express.Router();
 
 /* GET articles listing. */

@@ -14,13 +14,13 @@ Component.initPassport = function () {
   // Configure the local strategy for use by Passport.
   //
   // The local strategy require a `verify` function which receives the credentials
-  // (`username` and `password`) submitted by the user.  The function must verify
+  // (`email` and `password`) submitted by the user.  The function must verify
   // that the password is correct and then invoke `cb` with a user object, which
   // will be set at `req.user` in route handlers after authentication.
   passport.use(Strategy.name, new Strategy({},
-    function (username, password, cb) {
+    function (email, password, cb) {
       new Users.Model({
-        username: username
+        email: email
       }).fetch({
         success: function () {
           if (this.isNew() || !this.validatePassword(password)) {

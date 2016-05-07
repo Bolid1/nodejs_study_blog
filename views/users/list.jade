@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  each user, i in users
+    div.panel.panel-default
+      div.panel-heading.clearfix
+        div.btn-group.pull-right.clearfix(role='group', aria-label='actions')
+          a(href='/users/edit/' + user._id)
+            button.btn.btn-default(type='submit', aria-label='Edit')
+              span.glyphicon.glyphicon-pencil(aria-hidden='true') Edit
+          form(method='POST', action='/users/delete').pull-right
+            input(type='hidden', name='_id', value=user._id)
+            button.btn.btn-default(type='submit', aria-label='Delete')
+              span.glyphicon.glyphicon-trash(aria-hidden='true') Delete
+        h3.panel-title=user.email
