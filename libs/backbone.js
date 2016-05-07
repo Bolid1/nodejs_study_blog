@@ -73,6 +73,17 @@ Backbone.sync = function (method, model, options) {
   return promise;
 };
 
+Backbone.Model.prototype = _.extend({
+  idAttribute: '_id',
+  query: function () {
+    return {_id: this.get(this.idAttribute)};
+  }
+}, Backbone.Model.prototype);
+
+Backbone.Collection.prototype = _.extend({
+  model: Backbone.Model
+}, Backbone.Collection.prototype);
+
 var throwError = function (message) {
   throw new Error(message);
 };

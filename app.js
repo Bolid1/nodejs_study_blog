@@ -1,6 +1,7 @@
 var
   Components = [
     require('./components/views'),
+    require('./components/auth'),
     require('./components/miscaleouns'),
     require('./components/routes'),
     require('./components/errors')
