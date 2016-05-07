@@ -13,6 +13,12 @@ var User = Users.Model = Backbone.Model.extend({
     }
 
     throw new Error('Before query you must fill "_id" or "email"');
+  },
+
+  validatePassword: function (password) {
+    // @TODO: Implement this method
+
+    return true;
   }
 });
 

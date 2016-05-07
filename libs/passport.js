@@ -21,18 +21,20 @@ var initPassport = function () {
   // (`email` and `password`) submitted by the user.  The function must verify
   // that the password is correct and then invoke `cb` with a user object, which
   // will be set at `req.user` in route handlers after authentication.
-  passport.use(Strategy.name, new Strategy({},
+  passport.use('local', new Strategy({usernameField: 'email'},
     function (email, password, cb) {
-      new Users.Model({
+      var user = new Users.Model({
         email: email
-      }).fetch({
+      });
+
+      user.fetch({
         success: function () {
-          if (this.isNew() || !this.validatePassword(password)) {
+          if (user.isNew() || !user.validatePassword(password)) {
             cb(null, false);
             return;
           }
 
-          cb(null, this.toJSON());
+          cb(null, user.toJSON());
         },
         error: function (err) {
           cb(err);
@@ -54,16 +56,18 @@ var initPassport = function () {
   });
 
   passport.deserializeUser(function (id, cb) {
-    new Users.Model({
+    var user = new Users.Model({
       _id: id
-    }).fetch({
+    });
+
+    user.fetch({
       success: function () {
-        if (this.isNew()) {
+        if (user.isNew()) {
           cb(null, false);
           return;
         }
 
-        cb(null, this.toJSON());
+        cb(null, user.toJSON());
       },
       error: function (err) {
         cb(err);
