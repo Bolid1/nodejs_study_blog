@@ -9,7 +9,7 @@ var
   express = require('express'),
   app = express(),
   Backbone = require('./libs/backbone'),
-  db = require('./libs/db');
+  db = require('./libs/db')();
 
 Backbone.db = db;
 
