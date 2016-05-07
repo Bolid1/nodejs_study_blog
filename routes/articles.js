@@ -10,7 +10,6 @@ router.get('/', function (req, res) {
   articles.fetch({
     success: function () {
       res.render('articles/list', {
-        title: 'Express',
         articles: articles.toJSON()
       });
     },
@@ -49,7 +48,6 @@ router.get('/edit/:_id', function (req, res) {
   article.fetch({
     success: function () {
       res.render('articles/edit', {
-        title: 'Express',
         article: article.toJSON()
       });
     },

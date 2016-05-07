@@ -10,7 +10,6 @@ router.get('/', function (req, res) {
   users.fetch({
     success: function () {
       res.render('users/list', {
-        title: 'Express',
         users: users.toJSON()
       });
     },
@@ -48,7 +47,6 @@ router.get('/edit/:_id', function (req, res) {
   user.fetch({
     success: function () {
       res.render('users/edit', {
-        title: 'Express',
         user: user.toJSON()
       });
     },
