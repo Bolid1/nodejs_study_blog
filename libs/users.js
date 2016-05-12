@@ -9,7 +9,7 @@ var User = Users.Model = Backbone.Model.extend({
   defaults: {
     rights: {
       articles: {
-        'add': false,
+        'add': true,
         'edit': false,
         'delete': false
       },
@@ -44,7 +44,7 @@ var User = Users.Model = Backbone.Model.extend({
       rights = {};
 
     _.each(result.rights, function (entity_rights, entity) {
-      _.each(entity_rights, function (action, value) {
+      _.each(entity_rights, function (value, action) {
         rights[[action, entity].join('_')] = value;
       });
     });
