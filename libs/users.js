@@ -14,8 +14,10 @@ var User = Users.Model = Backbone.Model.extend({
         'delete': false
       },
       users: {
+        'view': false,
         'add': false,
-        'view': false
+        'edit': false,
+        'delete': false
       }
     }
   },
