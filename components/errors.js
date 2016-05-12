@@ -15,7 +15,7 @@ Component.fillApp = function (app) {
     next(err);
   });
 
-  // production error handler
+  // Error handler
   app.use(function (err, req, res) {
     res.status(err.status || 500);
     res.render('error', {
