@@ -5,6 +5,10 @@ var
   passport = require('../libs/passport')();
 
 router.get('/login', function (req, res) {
+  if (!req.user.isNew()) {
+    return res.redirect('/');
+  }
+
   res.render('auth/form', {});
 });
 
@@ -12,11 +16,11 @@ router.post('/login', passport.authenticate('local', {failureRedirect: '/auth/lo
   res.redirect('/');
 });
 
-router.get('/logout',
-  function (req, res) {
+router.get('/logout', function (req, res) {
+  if (!req.user.isNew()) {
     req.logout();
-    res.redirect('/');
   }
-);
+  res.redirect('/');
+});
 
 module.exports = router;
