@@ -5,6 +5,14 @@ var
 var User = Users.Model = Backbone.Model.extend({
   databaseCollection: 'users',
 
+  defaults: {
+    rights: {
+      can_add_articles: false,
+      can_add_users: false,
+      can_view_users: false
+    }
+  },
+
   query: function () {
     if (!this.isNew()) {
       return {_id: this.get(this.idAttribute)};
@@ -19,6 +27,23 @@ var User = Users.Model = Backbone.Model.extend({
     // @TODO: Implement this method
 
     return true;
+  },
+
+  /**
+   * @protected
+   * @returns string|boolean
+   */
+  validate: function () {
+    if (!this.get('email')) {
+      return 'Empty email';
+    }
+
+    // @TODO: Check email
+    if (!this.get('password')) {
+      return 'Empty password';
+    }
+
+    return false;
   }
 });
 

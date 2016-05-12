@@ -21,16 +21,22 @@ html
               li.active
                 a(href='/articles') All articles
                   span.sr-only (current)
-              li
-                a(href='/articles/add') Create article
-              li
-                a(href='/users') All users
-              li
-                a(href='/users/add') Create user
-              li
-                a(href='/auth/login') Login
-              li
-                a(href='/auth/logout') Logout
+              if user
+                if user.rights.can_add_articles
+                  li
+                    a(href='/articles/add') Create article
+                if user.rights.can_view_users
+                  li
+                    a(href='/users') All users
+                if user.rights.can_add_users
+                  li
+                    a(href='/users/add') Create user
+              unless user
+                li
+                  a(href='/auth/login') Login
+              else
+                li
+                  a(href='/auth/logout') Logout (#{user.email})
     div.container
       block content
 
