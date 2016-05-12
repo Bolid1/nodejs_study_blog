@@ -20,7 +20,7 @@ var User = Users.Model = Backbone.Model.extend({
     }
   },
 
-  can: function (action, entity) {
+  can: function (action, entity, value) {
     var rights = this.get('rights');
 
     if (!rights) {
@@ -33,6 +33,10 @@ var User = Users.Model = Backbone.Model.extend({
 
     if (typeof rights[entity][action] === 'undefined') {
       throw new Error('Right "%s" not exist in rights of entity "%s"'.replace('%s', action).replace('%s', entity));
+    }
+
+    if (typeof value !== 'undefined') {
+      rights[entity][action] = !!value;
     }
 
     return rights[entity][action];
