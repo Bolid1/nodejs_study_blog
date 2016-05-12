@@ -62,11 +62,6 @@ var initPassport = function () {
 
     user.fetch({
       success: function () {
-        if (user.isNew()) {
-          cb(null, false);
-          return;
-        }
-
         cb(null, user);
       },
       error: function (err) {
