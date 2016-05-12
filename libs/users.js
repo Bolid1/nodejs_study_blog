@@ -9,7 +9,7 @@ var User = Users.Model = Backbone.Model.extend({
   defaults: {
     rights: {
       articles: {
-        'add': true,
+        'add': false,
         'edit': false,
         'delete': false
       },
