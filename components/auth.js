@@ -21,27 +21,11 @@ Component.fillApp = function (app) {
   app.use(passport.session({}));
 
   app.use(function (req, res, next) {
-    if (!(req.user && req.user._id)) {
-      next();
-      return;
+    if (req.user && !req.user.isNew()) {
+      res.locals.user = req.user.toJSON();
     }
 
-    var user = new Users.Model({
-      _id: req.user._id
-    });
-
-    user.fetch({
-      success: function () {
-        if (!user.isNew()) {
-          res.locals.user = user.toJSON();
-        }
-
-        next();
-      },
-      error: function () {
-        next();
-      }
-    });
+    next();
   });
 };
 

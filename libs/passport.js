@@ -67,7 +67,7 @@ var initPassport = function () {
           return;
         }
 
-        cb(null, user.toJSON());
+        cb(null, user);
       },
       error: function (err) {
         cb(err);
