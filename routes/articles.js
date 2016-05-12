@@ -19,11 +19,19 @@ router.get('/', function (req, res) {
   });
 });
 
-router.get('/add', function (req, res) {
+router.get('/add', function (req, res, next) {
+  if (!req.user.can('add', 'articles')) {
+    return next();
+  }
+
   res.render('articles/add', {title: 'Express'});
 });
 
-router.post('/create', function (req, res) {
+router.post('/create', function (req, res, next) {
+  if (!req.user.can('add', 'articles')) {
+    return next();
+  }
+
   /** @var Model article */
   var article = new Articles.Model({
     head: req.body.head,
@@ -40,7 +48,12 @@ router.post('/create', function (req, res) {
   });
 });
 
-router.get('/edit/:_id', function (req, res) {
+router.get('/edit/:_id', function (req, res, next) {
+  if (!req.user.can('edit', 'articles')) {
+    return next();
+  }
+  // @TODO: Check can edit article with _id req.params._id
+
   /** @var Model article */
   var article = new Articles.Model({
     _id: req.params._id
@@ -58,6 +71,10 @@ router.get('/edit/:_id', function (req, res) {
 });
 
 router.post('/update/', function (req, res) {
+  if (!req.user.can('edit', 'articles')) {
+    return next();
+  }
+  // @TODO: Check can edit article with _id req.body._id
   /** @var Model article */
   var article = new Articles.Model({
     _id: req.body._id,
@@ -76,6 +93,10 @@ router.post('/update/', function (req, res) {
 });
 
 router.post('/delete/', function (req, res) {
+  if (!req.user.can('delete', 'articles')) {
+    return next();
+  }
+  // @TODO: Check can delete article with _id req.body._id
   /** @var Model article */
   var article = new Articles.Model({
     _id: req.body._id

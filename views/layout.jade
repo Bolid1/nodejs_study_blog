@@ -21,17 +21,18 @@ html
               li.active
                 a(href='/articles') All articles
                   span.sr-only (current)
-              if user
-                if user.rights.can_add_articles
-                  li
-                    a(href='/articles/add') Create article
-                if user.rights.can_view_users
-                  li
-                    a(href='/users') All users
-                if user.rights.can_add_users
-                  li
-                    a(href='/users/add') Create user
-              unless user
+              if user.rights.add_articles
+                li
+                  a(href='/articles/add') Create article
+
+              if user.rights.view_users
+                li
+                  a(href='/users') All users
+              if user.rights.add_users
+                li
+                  a(href='/users/add') Create user
+
+              if user.authorized
                 li
                   a(href='/auth/login') Login
               else
