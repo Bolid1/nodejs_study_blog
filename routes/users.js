@@ -5,6 +5,9 @@ var
 
 /* GET users listing. */
 router.get('/', function (req, res) {
+  if (!req.user.can('view', 'users')) {
+    return next();
+  }
   /** @var {Collection} users */
   var users = new Users.Collection();
   users.fetch({
@@ -20,10 +23,16 @@ router.get('/', function (req, res) {
 });
 
 router.get('/add', function (req, res) {
+  if (!req.user.can('add', 'users')) {
+    return next();
+  }
   res.render('users/add', {title: 'Express'});
 });
 
 router.post('/create', function (req, res) {
+  if (!req.user.can('add', 'users')) {
+    return next();
+  }
   /** @var Model user */
   var user = new Users.Model({
     email: req.body.email
@@ -40,6 +49,10 @@ router.post('/create', function (req, res) {
 });
 
 router.get('/edit/:_id', function (req, res) {
+  if (!req.user.can('edit', 'users')) {
+    return next();
+  }
+  // @TODO: Check can edit users with _id req.params._id
   /** @var Model user */
   var user = new Users.Model({
     _id: req.params._id
@@ -57,6 +70,10 @@ router.get('/edit/:_id', function (req, res) {
 });
 
 router.post('/update/', function (req, res) {
+  if (!req.user.can('edit', 'users')) {
+    return next();
+  }
+  // @TODO: Check can edit users with _id req.body._id
   /** @var Model user */
   var user = new Users.Model({
     _id: req.body._id,
@@ -74,6 +91,10 @@ router.post('/update/', function (req, res) {
 });
 
 router.post('/delete/', function (req, res) {
+  if (!req.user.can('delete', 'users')) {
+    return next();
+  }
+  // @TODO: Check can delete users with _id req.body._id
   /** @var Model user */
   var user = new Users.Model({
     _id: req.body._id
