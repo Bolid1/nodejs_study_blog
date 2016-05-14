@@ -37,7 +37,7 @@ router.post('/create', function (req, res, next) {
   var user = new Users.Model({
     email: req.body.email,
     password: req.body.password
-  });
+  }, {new_password: true});
 
   user.save(null, {
     success: function () {
@@ -80,7 +80,7 @@ router.post('/update/', function (req, res, next) {
     _id: req.body._id,
     email: req.body.email,
     password: req.body.password
-  });
+  }, {new_password: true});
 
   user.save(null, {
     success: function () {

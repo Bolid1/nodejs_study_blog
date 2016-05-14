@@ -65,10 +65,35 @@ var User = Users.Model = Backbone.Model.extend({
     throw new Error('Before query you must fill "_id" or "email"');
   },
 
-  validatePassword: function (password) {
+  set: function (key, val, options) {
+    if (key == null) return this;
+
+    // Handle both `"key", value` and `{key: value}` -style arguments.
+    var attrs;
+    if (typeof key === 'object') {
+      attrs = key;
+      options = val;
+    } else {
+      (attrs = {})[key] = val;
+    }
+
+    options || (options = {});
+
+    if (options.new_password && attrs.password) {
+      attrs.password = this.encryptPassword(attrs.password);
+    }
+
+    return Backbone.Model.prototype.set.call(this, attrs, options);
+  },
+
+  encryptPassword: function (clean_pass) {
     // @TODO: Implement this method
 
-    return true;
+    return clean_pass;
+  },
+
+  validatePassword: function (password) {
+    return this.encryptPassword(password) === this.get('password');
   },
 
   /**
