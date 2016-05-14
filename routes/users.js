@@ -4,7 +4,7 @@ var
   router = express.Router();
 
 /* GET users listing. */
-router.get('/', function (req, res) {
+router.get('/', function (req, res, next) {
   if (!req.user.can('view', 'users')) {
     return next();
   }
@@ -22,20 +22,21 @@ router.get('/', function (req, res) {
   });
 });
 
-router.get('/add', function (req, res) {
+router.get('/add', function (req, res, next) {
   if (!req.user.can('add', 'users')) {
     return next();
   }
   res.render('users/add', {title: 'Express'});
 });
 
-router.post('/create', function (req, res) {
+router.post('/create', function (req, res, next) {
   if (!req.user.can('add', 'users')) {
     return next();
   }
   /** @var Model user */
   var user = new Users.Model({
-    email: req.body.email
+    email: req.body.email,
+    password: req.body.password
   });
 
   user.save(null, {
@@ -48,7 +49,7 @@ router.post('/create', function (req, res) {
   });
 });
 
-router.get('/edit/:_id', function (req, res) {
+router.get('/edit/:_id', function (req, res, next) {
   if (!req.user.can('edit', 'users')) {
     return next();
   }
@@ -69,7 +70,7 @@ router.get('/edit/:_id', function (req, res) {
   });
 });
 
-router.post('/update/', function (req, res) {
+router.post('/update/', function (req, res, next) {
   if (!req.user.can('edit', 'users')) {
     return next();
   }
@@ -77,7 +78,8 @@ router.post('/update/', function (req, res) {
   /** @var Model user */
   var user = new Users.Model({
     _id: req.body._id,
-    email: req.body.email
+    email: req.body.email,
+    password: req.body.password
   });
 
   user.save(null, {
@@ -90,7 +92,7 @@ router.post('/update/', function (req, res) {
   });
 });
 
-router.post('/delete/', function (req, res) {
+router.post('/delete/', function (req, res, next) {
   if (!req.user.can('delete', 'users')) {
     return next();
   }
