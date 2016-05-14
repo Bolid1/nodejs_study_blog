@@ -15,7 +15,9 @@ router.get('/', function (req, res) {
     },
     error: function () {
       res.send('Error in get info from database');
-    }
+    },
+
+    load: ['users']
   });
 });
 
