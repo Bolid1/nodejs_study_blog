@@ -21,14 +21,14 @@ html
               li.active
                 a(href='/articles') All articles
                   span.sr-only (current)
-              if user.rights.add_articles
+              if user.rights.articles.add
                 li
                   a(href='/articles/add') Create article
 
-              if user.rights.view_users
+              if user.rights.users.view
                 li
                   a(href='/users') All users
-              if user.rights.add_users
+              if user.rights.users.add
                 li
                   a(href='/users/add') Create user
 

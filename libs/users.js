@@ -22,6 +22,17 @@ var User = Users.Model = Backbone.Model.extend({
     }
   },
 
+  save: function (key, val, options) {
+    // Handle both `"key", value` and `{key: value}` -style arguments.
+    if (key == null || typeof key === 'object') {
+      options = val;
+    }
+
+    options.attrs = _.clone(this.attributes);
+
+    Backbone.Model.prototype.save.call(this, key, val, options);
+  },
+
   can: function (action, entity, value) {
     var rights = this.get('rights');
 
@@ -42,22 +53,6 @@ var User = Users.Model = Backbone.Model.extend({
     }
 
     return rights[entity][action];
-  },
-
-  toJSON: function () {
-    var
-      result = _.clone(this.attributes),
-      rights = {};
-
-    _.each(result.rights, function (entity_rights, entity) {
-      _.each(entity_rights, function (value, action) {
-        rights[[action, entity].join('_')] = value;
-      });
-    });
-
-    result.rights = rights;
-
-    return result;
   },
 
   query: function () {
