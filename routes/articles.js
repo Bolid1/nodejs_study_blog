@@ -28,12 +28,20 @@ router.get('/add', function (req, res, next) {
 });
 
 router.post('/create', function (req, res, next) {
-  if (!req.user.can('add', 'articles')) {
+  /** @var {Users.Model} user */
+  var user = req.user;
+
+  if (!user.can('add', 'articles')) {
     return next();
   }
 
   /** @var Model article */
   var article = new Articles.Model({
+    created_by: user.get(user.idAttribute),
+    updated_by: user.get(user.idAttribute),
+    date_create: +new Date,
+    date_update: +new Date,
+
     head: req.body.head,
     body: req.body.body
   });
@@ -77,6 +85,9 @@ router.post('/update/', function (req, res) {
   // @TODO: Check can edit article with _id req.body._id
   /** @var Model article */
   var article = new Articles.Model({
+    updated_by: user.get(user.idAttribute),
+    date_update: +new Date,
+
     _id: req.body._id,
     head: req.body.head,
     body: req.body.body
