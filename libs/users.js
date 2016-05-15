@@ -50,6 +50,7 @@ var User = Users.Model = Backbone.Model.extend({
 
     if (typeof value !== 'undefined') {
       rights[entity][action] = !!value;
+      this.set('rights', rights);
     }
 
     return rights[entity][action];

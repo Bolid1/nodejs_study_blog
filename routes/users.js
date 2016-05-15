@@ -1,4 +1,5 @@
 var
+  _ = require('underscore'),
   express = require('express'),
   Users = require('../libs/users'),
   router = express.Router();
@@ -75,16 +76,26 @@ router.post('/update/', function (req, res, next) {
     return next();
   }
   // @TODO: Check can edit users with _id req.body._id
-  /** @var Model user */
   var user = new Users.Model({
     _id: req.body._id
   });
 
   user.fetch({
     success: function () {
-      user.set({
-        email: req.body.email
+      _.each(req.body, function (value, key) {
+        if (key.indexOf('rights') !== 0) {
+          return;
+        }
+
+        key = key.split('_');
+        if (!key[2]) {
+          return;
+        }
+
+        user.can(key[2], key[1], !!value);
       });
+
+      user.set('email', req.body.email);
 
       if (req.body.password) {
         user.set('password', req.body.password, {new_password: true});
