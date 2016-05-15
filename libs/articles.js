@@ -22,6 +22,14 @@ var Article = Articles.Model = Backbone.Model.extend({
     return {_id: this.get(this.idAttribute)};
   },
 
+  can: function (user, action) {
+    if (!(user instanceof Users.Model)) {
+      throw new Error('Invalid user object given');
+    }
+
+    return user.can(action, 'articles') && this.get('created_by') === user.get(user.idAttribute);
+  },
+
   load: function (externals) {
     externals = _.values(externals);
 
