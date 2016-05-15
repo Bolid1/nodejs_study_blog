@@ -61,7 +61,7 @@ router.get('/edit/:_id', function (req, res, next) {
   user.fetch({
     success: function () {
       res.render('users/edit', {
-        user: user.toJSON()
+        edited_user: user.toJSON()
       });
     },
     error: function () {
@@ -77,17 +77,30 @@ router.post('/update/', function (req, res, next) {
   // @TODO: Check can edit users with _id req.body._id
   /** @var Model user */
   var user = new Users.Model({
-    _id: req.body._id,
-    email: req.body.email,
-    password: req.body.password
-  }, {new_password: true});
+    _id: req.body._id
+  });
 
-  user.save(null, {
+  user.fetch({
     success: function () {
-      res.redirect('/users/');
+      user.set({
+        email: req.body.email
+      });
+
+      if (req.body.password) {
+        user.set('password', req.body.password, {new_password: true});
+      }
+
+      user.save(null, {
+        success: function () {
+          res.redirect('/users/');
+        },
+        error: function () {
+          res.send('Error in updating info in database');
+        }
+      });
     },
     error: function () {
-      res.send('Error in updating info in database');
+      res.send('User not found');
     }
   });
 });

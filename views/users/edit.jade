@@ -2,12 +2,12 @@ extends ../layout
 
 block content
   form(method='POST', action='/users/update')
-    input#user_id(type='hidden', name='_id', value=user._id)
+    input#user_id(type='hidden', name='_id', value=edited_user._id)
     div.form-group
       label(for='user_email') User email
-      input#user_email.form-control(type='email', placeholder='User email', name='email', value=user.email)
+      input#user_email.form-control(type='email', placeholder='User email', name='email', value=edited_user.email)
     div.form-group
       label(for='user_password') User password
       input#user_password.form-control(type='password', placeholder='User password', name='password')
 
-    button.btn.btn-success(type='submit') Create user
+    button.btn.btn-success(type='submit') Update user
