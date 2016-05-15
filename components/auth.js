@@ -25,8 +25,7 @@ Component.fillApp = function (app) {
       req.user = new Users.Model();
     }
 
-    res.locals.user = req.user.toJSON();
-    res.locals.user.authorized = req.user.isNew();
+    res.locals.user = req.user;
 
     next();
   });
