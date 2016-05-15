@@ -34,11 +34,8 @@ router.post('/create', function (req, res, next) {
   if (!req.user.can('add', 'users')) {
     return next();
   }
-  /** @var Model user */
-  var user = new Users.Model({
-    email: req.body.email,
-    password: req.body.password
-  }, {new_password: true});
+  var user = new Users.Model();
+  fillUserFromPOST(user, req.body);
 
   user.save(null, {
     success: function () {
@@ -82,24 +79,7 @@ router.post('/update/', function (req, res, next) {
 
   user.fetch({
     success: function () {
-      _.each(req.body, function (value, key) {
-        if (key.indexOf('rights') !== 0) {
-          return;
-        }
-
-        key = key.split('_');
-        if (!key[2]) {
-          return;
-        }
-
-        user.can(key[2], key[1], !!value);
-      });
-
-      user.set('email', req.body.email);
-
-      if (req.body.password) {
-        user.set('password', req.body.password, {new_password: true});
-      }
+      fillUserFromPOST(user, req.body);
 
       user.save(null, {
         success: function () {
@@ -135,5 +115,34 @@ router.post('/delete/', function (req, res, next) {
     }
   });
 });
+
+/**
+ * Fill user from POST request
+ * @param {Users.Model} user
+ * @param {object} data
+ * @returns {Users.Model}
+ */
+function fillUserFromPOST(user, data) {
+  _.each(data, function (value, key) {
+    if (key.indexOf('rights') !== 0) {
+      return;
+    }
+
+    key = key.split('_');
+    if (!key[2]) {
+      return;
+    }
+
+    user.can(key[2], key[1], !!value);
+  });
+
+  user.set('email', data.email);
+
+  if (data.password) {
+    user.set('password', data.password, {new_password: true});
+  }
+
+  return user;
+}
 
 module.exports = router;
