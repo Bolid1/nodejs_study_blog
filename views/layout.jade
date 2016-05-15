@@ -37,7 +37,7 @@ html
                   a(href='/auth/login') Login
               else
                 li
-                  a(href='/auth/logout') Logout (#{user.email})
+                  a(href='/auth/logout') Logout (#{user.get('email')})
     div.container
       block content
 
