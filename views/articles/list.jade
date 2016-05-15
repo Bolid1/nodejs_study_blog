@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  each article, i in articles
+  each article in articles.slice()
     div.panel.panel-default
       div.panel-heading.clearfix
         div.btn-group.pull-right.clearfix(role='group', aria-label='actions')
@@ -12,9 +12,9 @@ block content
             input(type='hidden', name='_id', value=article._id)
             button.btn.btn-default(type='submit', aria-label='Delete')
               span.glyphicon.glyphicon-trash(aria-hidden='true') Delete
-        h3.panel-title=article.head
-        span Created by #{article.created_by.email}
+        h3.panel-title=article.get('head')
+        span Created by #{article.get('created_by').email}
         span &nbsp;
-        span at #{moment(article.date_create).format()}
+        span at #{moment(article.get('date_create')).format()}
 
-      div.panel-body=article.body
+      div.panel-body=article.get('body')

@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
   articles.fetch({
     success: function () {
       res.render('articles/list', {
-        articles: articles.toJSON()
+        articles: articles
       });
     },
     error: function () {
@@ -71,7 +71,7 @@ router.get('/edit/:_id', function (req, res, next) {
   article.fetch({
     success: function () {
       res.render('articles/edit', {
-        article: article.toJSON()
+        article: article
       });
     },
     error: function () {
