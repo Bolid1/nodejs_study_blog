@@ -32,7 +32,7 @@ html
                 li
                   a(href='/users/add') Create user
 
-              unless user.isNew()
+              if user.isNew()
                 li
                   a(href='/auth/login') Login
               else
