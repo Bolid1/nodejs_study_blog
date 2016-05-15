@@ -123,6 +123,12 @@ router.post('/delete/', function (req, res, next) {
  * @returns {Users.Model}
  */
 function fillUserFromPOST(user, data) {
+  _.each(user.get('rights'), function (rights, entity) {
+    _.each(rights, function (value, action) {
+      user.can(action, entity, false);
+    });
+  });
+
   _.each(data, function (value, key) {
     if (key.indexOf('rights') !== 0) {
       return;
