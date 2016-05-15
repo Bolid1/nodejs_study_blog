@@ -3,6 +3,7 @@ var
     require('./components/views'),
     require('./components/auth'),
     require('./components/miscaleouns'),
+    require('./components/date'),
     require('./components/routes'),
     require('./components/errors')
   ],
