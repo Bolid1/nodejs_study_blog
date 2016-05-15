@@ -5,13 +5,15 @@ block content
     div.panel.panel-default
       div.panel-heading.clearfix
         div.btn-group.pull-right.clearfix(role='group', aria-label='actions')
-          a(href='/articles/edit/' + article._id)
-            button.btn.btn-default(type='submit', aria-label='Edit')
-              span.glyphicon.glyphicon-pencil(aria-hidden='true') Edit
-          form(method='POST', action='/articles/delete').pull-right
-            input(type='hidden', name='_id', value=article._id)
-            button.btn.btn-default(type='submit', aria-label='Delete')
-              span.glyphicon.glyphicon-trash(aria-hidden='true') Delete
+          if article.can(user, 'edit')
+            a(href='/articles/edit/' + article._id)
+              button.btn.btn-default(type='submit', aria-label='Edit')
+                span.glyphicon.glyphicon-pencil(aria-hidden='true') Edit
+          if article.can(user, 'delete')
+            form(method='POST', action='/articles/delete').pull-right
+              input(type='hidden', name='_id', value=article._id)
+              button.btn.btn-default(type='submit', aria-label='Delete')
+                span.glyphicon.glyphicon-trash(aria-hidden='true') Delete
         h3.panel-title=article.get('head')
         span Created by #{article.get('created_by').email}
         span &nbsp;
