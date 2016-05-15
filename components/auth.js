@@ -1,6 +1,8 @@
 var
   Component,
-  sessions = require('express-session'),
+  session = require('express-session'),
+  MongoStore = require('connect-mongo')(session),
+  db_url = require('../libs/db')('full_url'),
   /** @var Authenticator passport */
   passport = require('../libs/passport')(),
   Users = require('./../libs/users');
@@ -9,10 +11,11 @@ Component = function () {
 };
 
 Component.fillApp = function (app) {
-  app.use(sessions({
+  app.use(session({
     secret: 'Some secret key',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: new MongoStore({url: db_url})
   }));
 
   // Initialize Passport and restore authentication state, if any, from the
