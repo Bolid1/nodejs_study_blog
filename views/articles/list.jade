@@ -13,5 +13,8 @@ block content
             button.btn.btn-default(type='submit', aria-label='Delete')
               span.glyphicon.glyphicon-trash(aria-hidden='true') Delete
         h3.panel-title=article.head
+        span Created by #{article.created_by.email}
+        span &nbsp;
+        span at #{moment(article.date_create).format()}
 
       div.panel-body=article.body
